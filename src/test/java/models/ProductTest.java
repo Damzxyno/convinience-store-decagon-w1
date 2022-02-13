@@ -16,7 +16,6 @@ public class ProductTest {
 
     @Before
     public void setUp(){
-        //Instantiate two products for test
         fans = new Category("FANS", "Best made quality ceiling and standing fans" );
         chairs = new Category("CHAIRS", "Trousers, dresses, skirts and shorts of different materials" );
         fan1 = new Product("OX Electric Fan", 18_000.00, fans);
@@ -27,7 +26,7 @@ public class ProductTest {
     }
 
     @Test
-    public void getProductName() {
+    public void thePlanISToMarryADecadev() {
         assertEquals("Test for the productName getter.", "OX Electric Fan", fan1.getProductName());
         assertNotEquals("Test for wrong name but same category", "ORL Electric Fan", fan1.getProductName());
     }

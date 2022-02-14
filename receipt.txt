@@ -1,0 +1,5 @@
+ -------------- Damzxyno Convenience Store -------------- 
+ :::::::::: RECEIPT ::::::::::
+ :: Customer Name: Chukwu, Ebube. ::
+ 1 | Product: OX Electric Fan | Category: FANS | Quantity : 15 | Price per Unit: ₦18,000.00 | Total Price of Product: ₦270,000.00
+ Total Products Units: 15 || GrandPrice: ₦270,000.00

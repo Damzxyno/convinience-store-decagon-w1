@@ -81,11 +81,11 @@ public class StorageTest {
         Product fan1 = new Product("OX Electric Fan", 18_000.00, fans);
 
         goods_display_shelves.addToProductsList(fan1, 1);
-        System.out.println(goods_display_shelves.generateCompleteProductsRegister()[0]);
+        System.out.println(goods_display_shelves.generateCompleteProductsRegister());
         System.out.println("----------------------");
-        System.out.println(goods_display_shelves.generateProductRegisterByCategory(fans)[0]);
-        System.out.println(goods_display_shelves.generateProductRegisterByCategory(fans)[1]);
-        System.out.println(goods_display_shelves.generateCompleteProductsRegister()[1]);
+        System.out.println(goods_display_shelves.generateProductRegisterByCategory(fans));
+        System.out.println(goods_display_shelves.generateProductRegisterByCategory(fans));
+        System.out.println(goods_display_shelves.generateCompleteProductsRegister());
     }
 
     @Test

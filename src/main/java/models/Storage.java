@@ -12,39 +12,46 @@ import java.util.Objects;
 public class Storage {
     private final StorageType storageType;
     private final Map<Product, Integer> productsList;
+    private double totalPriceOfGoods;
 
     public Storage (StorageType storageType){
         this.storageType = storageType;
         productsList = new HashMap<>();
     }
 
+    public StorageType getStorageType() {return storageType;}
 
 
     public void addToProductsList(Product product, int units) {
+        totalPriceOfGoods += product.getProductPrice() * units;
         productsList.computeIfPresent(product, (currentProduct, currentUnits) -> currentUnits + units);
         productsList.putIfAbsent(product, units);
     }
+
+    public double getTotalPriceOfGoods() {return totalPriceOfGoods;}
 
     public boolean containsProduct(Product product) {return productsList.containsKey(product);}
 
     //create Test
     public boolean containsProductInAParticularQuantity(Product product, int quantity) {return productsList.get(product) >= quantity;}
 
-    public String [] generateCompleteProductsRegister() throws OutOfStockException{
-        return generateRegister(null);
+    public String generateRegisterAndRemoveProductsFromAnotherStorage(Storage storage) throws OutOfStockException {
+       return generateRegister(null, storage);
     }
 
-    public String [] generateProductRegisterByCategory(Category category) throws OutOfStockException{
-        return generateRegister(category);
+    public String  generateCompleteProductsRegister() throws OutOfStockException{
+        return generateRegister(null, null);
     }
 
-    private String [] generateRegister(Category category) throws OutOfStockException {
+    public String  generateProductRegisterByCategory(Category category) throws OutOfStockException{
+        return generateRegister(category, null);
+    }
+
+    private String generateRegister(Category category, Storage storage) throws OutOfStockException {
         if (productsList.isEmpty()) throw new OutOfStockException (storageType + " is currently empty!!");
         else {
             NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("en", "NG"));
-            StringBuilder stringBuilder = new StringBuilder();
-            String [] productRegister = new String[2];
-            double totalPrice = 0.0;
+            StringBuilder productRegister = new StringBuilder();
             int totalProducts = 0;
             int serialNo = 1;
 
@@ -54,28 +61,28 @@ public class Storage {
                     String categoryLine = "";
 
                     if (category == null) categoryLine =  " | Category: " + product.getProductCategory().getCategoryName();
-
-                    double unitPriceOfProduct = product.getProductPrice();
+                    if (storage != null){storage.reduceProductQuantity(product, productSet.getValue());}
                     int quantityOfProducts = productSet.getValue();
-                    totalPrice += unitPriceOfProduct * quantityOfProducts;
                     totalProducts += quantityOfProducts;
 
-                    stringBuilder.append("\n " + serialNo + " | Product: " +  product.getProductName() + categoryLine
-                            +  " | Quantity : " + quantityOfProducts +
-                            " | Price per Unit: " + formatter.format(product.getProductPrice()) +
-                            " | Total Price of Product: " + formatter.format(product.getProductPrice() * quantityOfProducts));
+                    productRegister.append("\n ").append(serialNo).append(" | Product: ")
+                            .append(product.getProductName())
+                            .append(categoryLine)
+                            .append(" | Quantity : ").append(quantityOfProducts)
+                            .append(" | Price per Unit: ").append(formatter.format(product.getProductPrice()))
+                            .append(" | Total Price of Product: ")
+                            .append(formatter.format(product.getProductPrice() * quantityOfProducts));
                     serialNo++;
                 }
             }
 
-            if (stringBuilder.length() < 1) throw new OutOfStockException (storageType + " doesn't have any goods in the " + Objects.requireNonNull(category).getCategoryName() + " category.");
+            if (productRegister.length() < 1) throw new OutOfStockException (storageType + " doesn't have any goods in the " + Objects.requireNonNull(category).getCategoryName() + " category.");
 
-            stringBuilder.append("\n Total Products Units: " + totalProducts + " || GrandPrice: " + formatter.format(totalPrice));
+            productRegister.append("\n Total Products Units: ").append(totalProducts)
+                    .append(" || GrandPrice: ").append(formatter.format(totalPriceOfGoods));
 
-            productRegister[0] = stringBuilder.toString();
-            productRegister[1] = String.valueOf(totalPrice);
 
-            return productRegister;
+            return productRegister.toString();
         }
     }
 

@@ -1,5 +1,6 @@
 package operations.implementations;
 
+import exceptions.InsufficientFundException;
 import exceptions.OutOfStockException;
 import exceptions.StockDoesNotExistException;
 import models.Company;
@@ -17,14 +18,13 @@ public class CustomerOperationsImpl implements CustomerOperations {
     }
 
     @Override
-    public void addProductToCart(Company company, Customer customer, Product product) throws OutOfStockException, StockDoesNotExistException {
-        addProductToCart(company, customer, product, 1);
+    public void purchaseGoodsInCart(Customer customer) throws InsufficientFundException{
+        if (customer.getCart().getTotalPriceOfGoods() > customer.getWalletValue()) throw new InsufficientFundException("Amount in customer wallet is less the total amount of products.");
+        else customer.checkOut();
     }
 
     @Override
-    public void deposit(Customer customer, double amount){
-        customer.fundWalletValue(amount);
-    }
+    public void deposit(Customer customer, double amount){customer.fundWalletValue(amount);}
 
-    
+
 }

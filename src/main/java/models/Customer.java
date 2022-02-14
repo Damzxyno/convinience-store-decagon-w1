@@ -6,6 +6,7 @@ public class Customer extends Person{
     private double wallet;
     private Storage cart;
     private Storage purchasedItems;
+    private boolean checkOut;
 
     public Customer(String lastName, String firstName) {
         super(lastName, firstName);
@@ -22,6 +23,13 @@ public class Customer extends Person{
     public Storage getCart() {return cart;}
 
     public Storage getPurchasedItems() {return purchasedItems;}
+
+    public boolean hasCheckedOut(){return checkOut;}
+
+    public void checkOut () {this.checkOut = true;}
+
+    public void unCheckOut() {this.checkOut = false;}
+
 
 
 

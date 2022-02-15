@@ -23,6 +23,7 @@ public class CustomerOperationsImpl implements CustomerOperations {
         else customer.checkOut();
     }
 
+
     @Override
     public void deposit(Customer customer, double amount){customer.fundWalletValue(amount);}
 

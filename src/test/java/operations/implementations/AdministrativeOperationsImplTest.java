@@ -1,6 +1,7 @@
 package operations.implementations;
 
 import enums.Designation;
+import enums.Qualification;
 import exceptions.*;
 import models.*;
 import operations.interfaces.AdministrativeOperations;
@@ -30,7 +31,7 @@ public class AdministrativeOperationsImplTest {
         stephen = new Customer("Stephen", "Ebube");
         manager = new Staff("Hope", "Odu", Designation.MANAGER);
         cashier = new Staff("Tobi", "Oluwaseun", Designation.CASHIER);
-        damzxynoStore = new Company("Damzxyno's Convenience Store", "Ikoyi");
+        damzxynoStore = new Company("Damzxyno's Convenience Store");
         sweets = new Category("SWEETS", "Nigerian made chocolate, vanilla and banana sweets");
         sweet1 = new Product("OK pop sweet", 300, sweets);
     }
@@ -45,7 +46,7 @@ public class AdministrativeOperationsImplTest {
     }
 
     @Test
-    public void testForUnauthorizedPersonelAddingAddingProductToCompany() throws InsufficientFundException, NotAuthorizedException {
+    public void testForUnauthorizedPersonelAddingAddingProductToCompany() {
         Exception exception = assertThrows(NotAuthorizedException.class, () -> administrativeOperations.addProductToCompany(damzxynoStore, cashier, sweet1, 600));
         assertTrue("Only Manager can add product to sell in company!".contains(exception.getMessage()));
     }
@@ -81,5 +82,30 @@ public class AdministrativeOperationsImplTest {
         Exception exception = assertThrows(NotAuthorizedException.class, () -> administrativeOperations.sellProductsInCart(damzxynoStore, manager, stephen));
         assertTrue("Only Cashiers can sell and dispense receipts to customers!".contains(exception.getMessage()));
     }
+
+    @Test
+    public void testForUnauthorizedStaffHiringAnApplicant(){
+        Applicant applicant = new Applicant("Chisom", "Uchenna", Qualification.SSCE);
+        Exception exception = assertThrows(NotAuthorizedException.class, () -> administrativeOperations.hireCashier(damzxynoStore, cashier, applicant));
+        assertEquals("Only the Manager can hire an applicant!", exception.getMessage());
+    }
+
+    @Test
+    public void testForHiringApplicantWhoseInfoIsNotInTheApplicantListOfCompany(){
+        Applicant applicant = new Applicant("Udeme", "Evangel", Qualification.OND);
+        Exception exception = assertThrows(InvalidOperationException.class, () -> administrativeOperations.hireCashier(damzxynoStore, manager, applicant));
+        assertEquals("Applicant object exist but not in company's record", "You can't hire applicant that has not applied!", exception.getMessage());
+    }
+
+    @Test
+    public void testForSuccessfulCreationOfStaffAndPuttingInCompanyList() throws InvalidOperationException, NotAuthorizedException {
+        Applicant applicant = new Applicant("Ifeoluwa", "Olaseyi", Qualification.SSCE);
+        assertTrue("Initially, company does not contain any staff", damzxynoStore.getStaffList().isEmpty());
+        new ApplicantOperationImpl().apply(damzxynoStore,applicant);
+        administrativeOperations.hireCashier(damzxynoStore, manager, applicant);
+        assertEquals("Now the staffList should increase by 1", 1, damzxynoStore.getStaffList().size());
+    }
+
+
 
 }

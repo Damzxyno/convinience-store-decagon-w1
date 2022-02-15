@@ -14,7 +14,7 @@ public class StorageTest {
 
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         Category jewelries = new Category("JEWELRIES", "Gold, Silver, Diamond Jewelries from all over the world" );
         cart = new Storage(StorageType.CUSTOMER_CART);
         goods_display_shelves = new Storage(StorageType.GOODS_DISPLAY_SHELVES);
@@ -41,7 +41,7 @@ public class StorageTest {
 
         goods_display_shelves.addToProductsList(jewelry2, 30);
         assertEquals("Testing the setProductList I", 30, goods_display_shelves.getProductQuantity(jewelry2));
-        assertNotEquals("Testing the setProductList II", 20, (int) goods_display_shelves.getProductQuantity(jewelry2));
+        assertNotEquals("Testing the setProductList II", 20, goods_display_shelves.getProductQuantity(jewelry2));
     }
 
 
@@ -58,10 +58,10 @@ public class StorageTest {
     public void reduceProductQuantity() throws OutOfStockException {
         goods_display_shelves.addToProductsList(jewelry1, 10);
         goods_display_shelves.reduceProductQuantity(jewelry1, 8);
-        assertEquals("Test for reducing product by quantity", 2, (int) goods_display_shelves.getProductQuantity(jewelry1));
+        assertEquals("Test for reducing product by quantity", 2, goods_display_shelves.getProductQuantity(jewelry1));
         goods_display_shelves.addToProductsList(jewelry1, 18);
-        assertNotEquals("Jewelry should not have old quantity after increment", 2, (int) goods_display_shelves.getProductQuantity(jewelry1));
-        assertEquals("Jewelry quantity should be current quantity", 20, (int) goods_display_shelves.getProductQuantity(jewelry1));
+        assertNotEquals("Jewelry should not have old quantity after increment", 2, goods_display_shelves.getProductQuantity(jewelry1));
+        assertEquals("Jewelry quantity should be current quantity", 20, goods_display_shelves.getProductQuantity(jewelry1));
     }
 
     @Test
@@ -84,8 +84,6 @@ public class StorageTest {
         System.out.println(goods_display_shelves.generateCompleteProductsRegister());
         System.out.println("----------------------");
         System.out.println(goods_display_shelves.generateProductRegisterByCategory(fans));
-        System.out.println(goods_display_shelves.generateProductRegisterByCategory(fans));
-        System.out.println(goods_display_shelves.generateCompleteProductsRegister());
     }
 
     @Test

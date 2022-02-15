@@ -1,14 +1,12 @@
 package operations.implementations;
 
 import enums.Designation;
+import enums.Qualification;
 import exceptions.InsufficientFundException;
 import exceptions.InvalidOperationException;
 import exceptions.NotAuthorizedException;
 import exceptions.OutOfStockException;
-import models.Company;
-import models.Customer;
-import models.Product;
-import models.Staff;
+import models.*;
 import operations.interfaces.AdministrativeOperations;
 
 import java.util.Date;
@@ -34,6 +32,8 @@ public class AdministrativeOperationsImpl implements AdministrativeOperations {
                     "\n Thanks for patronising us at " +
                     company.getCompanyName() + ".";
 
+            customer.unCheckOut();
+            customer.getCart().clearProductList();
             Date date = new Date();
             createAFileToSaveData("receipt" + date.getTime() + ".txt", receipt);
         } else throw new NotAuthorizedException("Only Cashiers can sell and dispense receipts to customers!");
@@ -44,5 +44,16 @@ public class AdministrativeOperationsImpl implements AdministrativeOperations {
         if(staff.getDesignation().equals(Designation.MANAGER)){
             company.getCompanyGoods().addToProductsList(product, quantity);
         } else throw new NotAuthorizedException("Only Manager can add product to sell in company!");
+    }
+
+    @Override
+    public void hireCashier(Company company, Staff manager, Applicant applicant) throws NotAuthorizedException, InvalidOperationException {
+        if (manager.getDesignation().equals(Designation.MANAGER)){
+            if (company.getApplicantList().contains(applicant) && applicant.getQualification().equals(Qualification.SSCE)){
+                Staff newStaff = new Staff(applicant.getLastName(), applicant.getFirstName(), Designation.CASHIER);
+                company.getStaffList().add(newStaff);
+                company.getApplicantList().remove(applicant);
+            } else throw new InvalidOperationException("You can't hire applicant that has not applied!");
+        } else throw new NotAuthorizedException ("Only the Manager can hire an applicant!");
     }
 }

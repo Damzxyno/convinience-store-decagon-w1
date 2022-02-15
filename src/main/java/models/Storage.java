@@ -19,8 +19,6 @@ public class Storage {
         productsList = new HashMap<>();
     }
 
-    public StorageType getStorageType() {return storageType;}
-
 
     public void addToProductsList(Product product, int units) {
         totalPriceOfGoods += product.getProductPrice() * units;
@@ -32,7 +30,6 @@ public class Storage {
 
     public boolean containsProduct(Product product) {return productsList.containsKey(product);}
 
-    //create Test
     public boolean containsProductInAParticularQuantity(Product product, int quantity) {return productsList.get(product) >= quantity;}
 
     public String generateRegisterAndRemoveProductsFromAnotherStorage(Storage storage) throws OutOfStockException {

@@ -1,6 +1,0 @@
- -------------- Damzxyno's Convenience Store -------------- 
- :::::::::: RECEIPT ::::::::::
- :: Customer Name: Ebube, Stephen. ::
- 1 | Product: OK pop sweet | Category: SWEETS | Quantity : 3 | Price per Unit: ₦300.00 | Total Price of Product: ₦900.00
- Total Products Units: 3 || GrandPrice: ₦900.00
- Thanks for patronising us at Damzxyno's Convenience Store.

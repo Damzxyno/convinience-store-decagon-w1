@@ -21,23 +21,22 @@ public class CustomerOperationsImplTest {
 
     @Before
     public void setUp(){
-        company = new Company("Damzxyno Convenience Store", "Victoria Island");
+        company = new Company("Damzxyno Convenience Store");
         customerOperations = new CustomerOperationsImpl();
         customer1 = new Customer("Ebube", "Chukwu");
         Category fans = new Category("FANS", "Best made quality ceiling and standing fans");
-        Category chairs = new Category("CHAIRS", "Trousers, dresses, skirts and shorts of different materials");
         fan1 = new Product("OX Electric Fan", 18_000.00, fans);
         fan2 = new Product("ORL Electric Fan", 20_000.00, fans);
     }
 
     @Test
-    public void testToSuccessfullyAddProductToCartList() throws OutOfStockException, StockDoesNotExistException, InsufficientFundException {
+    public void testToSuccessfullyAddProductToCartList() throws OutOfStockException, StockDoesNotExistException {
         company.getCompanyGoods().addToProductsList(fan1, 20);
         assertTrue("Check for empty cart, customer 1", customer1.getCart().isEmpty());
         customerOperations.addProductToCart(company, customer1, fan1,15);
         assertTrue("Check for presence of fan1 in customer 1's cart", customer1.getCart().containsProduct(fan1));assertFalse("Check for presence of fan2 which is not added in customer 1's cart", customer1.getCart().containsProduct(fan2));
         assertEquals("Check for correct quantity of product(fan1) in customer's cart", 15, customer1.getCart().getProductQuantity(fan1));
-        Exception exception = assertThrows(OutOfStockException.class, () -> {customerOperations.addProductToCart(company, customer1, fan1, 21);});
+        Exception exception = assertThrows(OutOfStockException.class, () -> customerOperations.addProductToCart(company, customer1, fan1, 21));
         assertTrue("The company does not have up to the quantity required!".contains(exception.getMessage()));
     }
 

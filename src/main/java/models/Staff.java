@@ -3,7 +3,7 @@ package models;
 import enums.Designation;
 
 public class Staff extends Person{
-    private Designation designation;
+    private final Designation designation;
 
     public Staff(String lastName, String firstName, Designation designation) {
         super(lastName, firstName);

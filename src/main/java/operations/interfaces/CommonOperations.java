@@ -11,13 +11,10 @@ public interface CommonOperations {
         try {
             FileWriter fileWriter = new FileWriter(filePath);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            fileWriter.write(fileContent);
-            fileWriter.close();
+            bufferedWriter.write(fileContent);
+            bufferedWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
-
 }

@@ -67,13 +67,18 @@ public class AdministrativeOperationsImplTest {
 
     @Test
     public void testForSuccessfulSellingAndDispensingReceiptToCustomerByCashier() throws OutOfStockException, StockDoesNotExistException, NotAuthorizedException, InvalidOperationException, InsufficientFundException {
+        assertEquals("Initial balance of company account is zero", 0.0, damzxynoStore.getCompanyAccount(), 0 );
         administrativeOperations.addProductToCompany(damzxynoStore, manager, sweet1, 200);
         customerOperations.deposit(stephen, 1_000);
         customerOperations.addProductToCart(damzxynoStore, stephen, sweet1, 3);
         customerOperations.purchaseGoodsInCart(stephen);
-        administrativeOperations.sellProductsInCart(damzxynoStore, cashier, stephen);
+        String receiptContent = administrativeOperations.sellProductsInCart(damzxynoStore, cashier, stephen);
         assertEquals("Customer: Stephen's wallet balance should reduce by the price of his purchase",
                 100, stephen.getWalletValue(), 0);
+        assertEquals("Company balance is now 900.0", 900, damzxynoStore.getCompanyAccount(),0);
+        System.out.println(receiptContent);
+        assertTrue(receiptContent.contains("1 | Product: OK pop sweet | Category: SWEETS | Quantity : 3 | Price per Unit: ₦300.00 | Total Price of Product: ₦900.00\n" +
+                " Total Products Units: 3 || GrandPrice: ₦900.00"));
     }
 
     @Test
@@ -105,7 +110,4 @@ public class AdministrativeOperationsImplTest {
         administrativeOperations.hireCashier(damzxynoStore, manager, applicant);
         assertEquals("Now the staffList should increase by 1", 1, damzxynoStore.getStaffList().size());
     }
-
-
-
 }

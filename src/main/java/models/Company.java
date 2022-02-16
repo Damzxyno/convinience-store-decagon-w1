@@ -23,8 +23,9 @@ public class Company {
 
     public Storage getCompanyGoods() {return companyGoods;}
 
-
     public void fundCompanyAccount(double amount) {this.companyAccount += amount;}
+
+    public double getCompanyAccount() {return companyAccount;}
 
     public List<Staff> getStaffList() {return staffList;}
 

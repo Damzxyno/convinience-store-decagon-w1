@@ -13,7 +13,7 @@ import java.util.Date;
 
 public class AdministrativeOperationsImpl implements AdministrativeOperations {
     @Override
-    public void sellProductsInCart(Company company, Staff staff, Customer customer) throws OutOfStockException, InsufficientFundException, NotAuthorizedException, InvalidOperationException {
+    public String sellProductsInCart(Company company, Staff staff, Customer customer) throws OutOfStockException, InsufficientFundException, NotAuthorizedException, InvalidOperationException {
         if (customer.getWalletValue() < customer.getCart().getTotalPriceOfGoods()) throw new InsufficientFundException("Customer fund is less than the products grand price!");
         else if (!customer.hasCheckedOut()) throw new InvalidOperationException("Customer has not checkedOut!");
         else if (staff.getDesignation().equals(Designation.CASHIER)){
@@ -36,6 +36,7 @@ public class AdministrativeOperationsImpl implements AdministrativeOperations {
             customer.getCart().clearProductList();
             Date date = new Date();
             createAFileToSaveData("receipt" + date.getTime() + ".txt", receipt);
+            return receiptBody;
         } else throw new NotAuthorizedException("Only Cashiers can sell and dispense receipts to customers!");
     }
 

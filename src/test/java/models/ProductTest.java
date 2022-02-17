@@ -54,7 +54,7 @@ public class ProductTest {
     @Test
     public void getProductCategory() {
         assertEquals("Different products of the same category should return same category object", fan1.getProductCategory(), fan2.getProductCategory());
-        assertEquals("Different products of the different category should return different category object", fan1.getProductCategory(), chair1.getProductCategory());
+        assertNotEquals("Different products of the different category should return different category object", fan1.getProductCategory(), chair1.getProductCategory());
     }
 
     @Test

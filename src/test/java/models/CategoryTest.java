@@ -23,7 +23,7 @@ public class CategoryTest {
     @Test
     public void getCategoryName() {
         assertEquals("Testing the getCategory() method.", "FANS", fans.getCategoryName());
-        assertEquals("Category Name should remain constant from products to Product.",hoodie.getProductCategory(), trouser.getProductCategory());
+        assertEquals("Category Name should remain constant from products to Product.", hoodie.getProductCategory(), trouser.getProductCategory());
     }
 
     @Test
@@ -31,15 +31,5 @@ public class CategoryTest {
         assertNotEquals("Product category should be modifiable Test 1", fans, fan1.getProductCategory());
         fan1.setProductCategory(fans);
         assertEquals("Product category should be modifiable Test 2", fans, fan1.getProductCategory());
-    }
-
-    @Test
-    public void setCategoryDescription(){
-
-    }
-
-    @Test
-    public void testToString() {
-        System.out.println(fan1.toString());
     }
 }
